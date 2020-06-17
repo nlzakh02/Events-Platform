@@ -15,7 +15,8 @@ namespace EventCatalogAPI.Data
         }
         
         public DbSet<EventItem> EventItems { get; set; }
-
+        public DbSet<EventOrganizer> EventOrganizers { get; set; }
+        public DbSet<EventType> EventTypes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<EventItem>(i =>
@@ -67,6 +68,30 @@ namespace EventCatalogAPI.Data
                 i.HasOne(c => c.EventCounty)
                     .WithMany()
                     .HasForeignKey(c => c.EventCountyId);
+            });
+
+            modelBuilder.Entity<EventOrganizer>(i =>
+            {
+                i.ToTable("EventOrganizer");
+                i.Property(o => o.Id)
+                   .IsRequired()
+                   .UseHiLo("event_organizer_hilo");
+
+                i.Property(o => o.Name)
+                   .IsRequired()
+                   .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<EventType>(i =>
+            {
+                i.ToTable("EventType");
+                i.Property(t => t.Id)
+                   .IsRequired()
+                   .UseHiLo("event_type_hilo");
+
+                i.Property(t => t.Type)
+                   .IsRequired()
+                   .HasMaxLength(100);
             });
         }
     }    
