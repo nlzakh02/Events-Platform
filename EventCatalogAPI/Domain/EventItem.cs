@@ -17,14 +17,14 @@ namespace EventCatalogAPI.Domain
         public decimal Price { get; set; }
         public string PictureURL { get; set; }
         public int EventOrganizerId { get; set; }
-        public int EventTypeId { get; set; }
+        public int EventCategoryId { get; set; }
         public int EventStateId { get; set; }
         public int EventCountyId { get; set; }
 
         // Property types below may need to be changed if class names are different
         public EventOrganizer EventOrganizer { get; set; }
-        public EventType EventType { get; set; }
-        public EventState EventState { get; set; }
-        public EventCounty EventCounty { get; set; }
+        public EventCategory EventCategory { get; set; }
+        public State EventState { get; set; }
+        public County EventCounty { get; set; }
     }
 }
