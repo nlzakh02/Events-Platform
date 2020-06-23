@@ -16,6 +16,7 @@ namespace EventCatalogAPI.Data
         }
         
         public DbSet<EventItem> EventItems { get; set; }
+
         public DbSet<Venue> Venues { get; set; }
         public DbSet<Address> Addresses { get; set; }
 
@@ -71,6 +72,7 @@ namespace EventCatalogAPI.Data
                     .WithMany()
                     .HasForeignKey(c => c.EventCountyId);
             });
+
 
         modelBuilder.Entity<Venue>( e =>
             {
@@ -150,6 +152,32 @@ namespace EventCatalogAPI.Data
 
                 e.Property(x => x.Longitude)
                  .HasDefaultValue(900);
+           });
+                 
+
+            modelBuilder.Entity<EventOrganizer>(i =>
+            {
+                i.ToTable("EventOrganizer");
+                i.Property(o => o.Id)
+                   .IsRequired()
+                   .UseHiLo("event_organizer_hilo");
+
+                i.Property(o => o.Name)
+                   .IsRequired()
+                   .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<EventType>(i =>
+            {
+                i.ToTable("EventType");
+                i.Property(t => t.Id)
+                   .IsRequired()
+                   .UseHiLo("event_type_hilo");
+
+                i.Property(t => t.Type)
+                   .IsRequired()
+                   .HasMaxLength(100);
+
             });
         }
     }    
