@@ -37,7 +37,7 @@ namespace EventCatalogAPI.Data
 
                 i.Property(p => p.Description)
                     .IsRequired()
-                    .HasMaxLength(200);
+                    .HasMaxLength(500);
 
                 i.Property(p => p.StartTime)
                     .IsRequired();
@@ -61,11 +61,11 @@ namespace EventCatalogAPI.Data
 
                 i.HasOne(c => c.EventAddress)
                     .WithMany()
-                    .HasForeignKey(c => c.EventAddress);
+                    .HasForeignKey(c => c.EventAddressId);
 
                 i.HasOne(c => c.EventVenue)
                     .WithMany()
-                    .HasForeignKey(c => c.EventVenue);
+                    .HasForeignKey(c => c.EventVenueId);
             });
 
 
