@@ -13,7 +13,7 @@ namespace EventCatalogAPI.Data
         public static void Seed(CatalogContext catalogContext)
         {
             catalogContext.Database.Migrate();
-            if (!catalogContext.EventCategories.Any())
+            if (!catalogContext.EventCatogories.Any())
             {
                 catalogContext.EventCategories.AddRange(GetEventCategories());
                 catalogContext.SaveChanges();
@@ -21,6 +21,11 @@ namespace EventCatalogAPI.Data
             if (!catalogContext.Addresses.Any())
             {
                 catalogContext.Addresses.AddRange(GetAddresses());
+                catalogContext.SaveChanges();
+            }
+            if (!catalogContext.EventOrganizers.Any())
+            {
+                catalogContext.EventOrganizers.AddRange(GetEventOrganizers());
                 catalogContext.SaveChanges();
             }
         }
@@ -361,6 +366,41 @@ namespace EventCatalogAPI.Data
                    // Longitude = 0
                 }
             };
+        }
+        private static IEnumerable<EventOrganizer> GetEventOrganizers()
+        {
+            return new List<EventOrganizer>
+            {
+                new EventOrganizer
+                { 
+                    Name = "The Professional Bartending Academy"
+                },
+                new EventOrganizer
+                {
+                    Name = "My Business Support"
+                },
+                new EventOrganizer
+                {
+                    Name = "WeCloudData"
+                },
+                new EventOrganizer
+                {
+                    Name = "ConcertMode At Home"
+                },
+                new EventOrganizer
+                {
+                    Name = "KOTRA Silicone Valley"
+                },
+                new EventOrganizer
+                {
+                    Name = "SS United States Conservancy"
+                },
+                new EventOrganizer
+                {
+                    Name = "Office for Diversity, Equity and Engagement"
+                },
+            };
+
         }
     }
 }
