@@ -16,9 +16,10 @@ namespace EventCatalogAPI.Data
         }
         
         public DbSet<EventItem> EventItems { get; set; }
-
         public DbSet<Venue> Venues { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<EventType> EventTypes { get; set; }
+        public DbSet<EventOrganizer> EventOrganizers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,15 +35,9 @@ namespace EventCatalogAPI.Data
                     .IsRequired()
                     .HasMaxLength(100);
 
-                i.Property(p => p.Summary)
-                    .IsRequired()
-                    .HasMaxLength(1000);
-
                 i.Property(p => p.Description)
-                    .IsRequired();
-
-                i.Property(p => p.StreetAddress)
-                    .IsRequired();
+                    .IsRequired()
+                    .HasMaxLength(500);
 
                 i.Property(p => p.StartTime)
                     .IsRequired();
@@ -60,21 +55,21 @@ namespace EventCatalogAPI.Data
                     .WithMany()
                     .HasForeignKey(c => c.EventOrganizerId);
 
-                i.HasOne(c => c.EventCategory)
+                i.HasOne(c => c.EventType)
                     .WithMany()
-                    .HasForeignKey(c => c.EventCategoryId);
+                    .HasForeignKey(c => c.EventTypeId);
 
-                i.HasOne(c => c.EventState)
+                i.HasOne(c => c.EventAddress)
                     .WithMany()
-                    .HasForeignKey(c => c.EventStateId);
+                    .HasForeignKey(c => c.EventAddressId);
 
-                i.HasOne(c => c.EventCounty)
+                i.HasOne(c => c.EventVenue)
                     .WithMany()
-                    .HasForeignKey(c => c.EventCountyId);
+                    .HasForeignKey(c => c.EventVenueId);
             });
 
 
-        modelBuilder.Entity<Venue>( e =>
+            modelBuilder.Entity<Venue>( e =>
             {
                 e.ToTable("Venues");
 
@@ -85,9 +80,9 @@ namespace EventCatalogAPI.Data
                 // Needs editing to match definitions of organizing parties
                 // Same venue can be used by many organizations
                 // One organization can use multiple venues
-                e.HasMany(x => x.OrganizationId)
-                 .WithMany()
-                 .HasForeignKey(c => c.OrganizerID);
+                //e.HasMany(x => x.OrganizationId)
+                // .WithMany()
+                // .HasForeignKey(c => c.OrganizerID);
 
                 e.Property(x => x.Address)
                  .IsRequired();
@@ -110,7 +105,7 @@ namespace EventCatalogAPI.Data
 
         
 
-        modelBuilder.Entity<Address>(e =>
+            modelBuilder.Entity<Address>(e =>
             {
                 e.ToTable("Addresses");
 
@@ -157,7 +152,7 @@ namespace EventCatalogAPI.Data
 
             modelBuilder.Entity<EventOrganizer>(i =>
             {
-                i.ToTable("EventOrganizer");
+                i.ToTable("EventOrganizers");
                 i.Property(o => o.Id)
                    .IsRequired()
                    .UseHiLo("event_organizer_hilo");
@@ -169,7 +164,7 @@ namespace EventCatalogAPI.Data
 
             modelBuilder.Entity<EventType>(i =>
             {
-                i.ToTable("EventType");
+                i.ToTable("EventTypes");
                 i.Property(t => t.Id)
                    .IsRequired()
                    .UseHiLo("event_type_hilo");

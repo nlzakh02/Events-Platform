@@ -13,110 +13,118 @@ namespace EventCatalogAPI.Data
         public static void Seed(CatalogContext catalogContext)
         {
             catalogContext.Database.Migrate();
-            if (!catalogContext.EventCatogories.Any())
+            if (!catalogContext.EventTypes.Any())
             {
-                catalogContext.EventCategories.AddRange(GetEventCategories());
+                catalogContext.EventTypes.AddRange(GetEventTypes());
                 catalogContext.SaveChanges();
             }
+
             if (!catalogContext.Addresses.Any())
             {
                 catalogContext.Addresses.AddRange(GetAddresses());
                 catalogContext.SaveChanges();
             }
+
             if (!catalogContext.EventOrganizers.Any())
             {
                 catalogContext.EventOrganizers.AddRange(GetEventOrganizers());
                 catalogContext.SaveChanges();
             }
+
+            if (!catalogContext.EventItems.Any())
+            {
+                catalogContext.EventItems.AddRange(GetEventItems());
+                catalogContext.SaveChanges();
+            }
         }
 
-        private static IEnumerable<EventCategory> GetEventCategories()
+        private static IEnumerable<EventType> GetEventTypes()
             {
-            return new List<EventCategory>
+            return new List<EventType>
                 {
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Business"
+                        Type = "Business"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Food & Drink"
+                        Type = "Food & Drink"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Health"
+                        Type = "Health"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Music"
+                        Type = "Music"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Auto, Boat & Air"
+                        Type = "Auto, Boat & Air"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Charity & Causes"
+                        Type = "Charity & Causes"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Community"
+                        Type = "Community"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Family & Education"
+                        Type = "Family & Education"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Fashion"
+                        Type = "Fashion"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Film & Media"
+                        Type = "Film & Media"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Hobbies"
+                        Type = "Hobbies"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Home & Lifestyle"
+                        Type = "Home & Lifestyle"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Performing & Visual Arts"
+                        Type = "Performing & Visual Arts"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Government"
+                        Type = "Government"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Spirituality"
+                        Type = "Spirituality"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "School Activities"
+                        Type = "School Activities"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Science & Tech"
+                        Type = "Science & Tech"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Holiday"
+                        Type = "Holiday"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Sports & Fitness"
+                        Type = "Sports & Fitness"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Travel & Outdoor"
+                        Type = "Travel & Outdoor"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Other"
+                        Type = "Other"
                     }
                 };
             }
@@ -401,6 +409,28 @@ namespace EventCatalogAPI.Data
                 },
             };
 
+        }
+
+        private static IEnumerable<EventItem> GetEventItems()
+        {
+            return new List<EventItem>
+            {
+                new EventItem {EventOrganizerId = 1, EventTypeId = 2, EventAddressId = 1, EventVenueId = 1, Name = "Mixology 101", Description = "Come join us as we introduce the basic cocktails that are in every good bartender's arsenal.", Price = 50.00M, StartTime = new DateTime(2020, 10, 11, 8, 30, 00), EndTime = new DateTime(2020, 10, 11, 10, 30, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/1" },
+                new EventItem {EventOrganizerId = 2, EventTypeId = 1, EventAddressId = 2, EventVenueId = 1, Name = "Loans for Small Businesses", Description = "Thinking of starting business? Considering expanding your business? We'll tell you what you need to know to obtain a small business loan.", Price = 100.00M, StartTime = new DateTime(2020, 11, 20, 5, 30, 00), EndTime = new DateTime(2020, 11, 20, 6, 30, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/2" },
+                new EventItem {EventOrganizerId = 3, EventTypeId = 18, EventAddressId = 3, EventVenueId = 1, Name = "BigTech Conference", Description = "An event for the brightest minds in the industry to collaborate and share the latest and greatest technology.", Price = 80.00M, StartTime = new DateTime(2020, 7, 2, 1, 30, 00), EndTime = new DateTime(2020, 7, 2, 9, 30, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/3" },
+                new EventItem {EventOrganizerId = 4, EventTypeId = 11, EventAddressId = 4, EventVenueId = 1, Name = "Symphony Number One", Description = "Relax as you listen to classics such as Mozart.", Price = 30.00M, StartTime = new DateTime(2020, 9, 22, 5, 00, 00), EndTime = new DateTime(2020, 9, 22, 8, 00, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/4" },
+                new EventItem {EventOrganizerId = 5, EventTypeId = 18, EventAddressId = 5, EventVenueId = 1, Name = "The Networkers' Networking", Description = "Meet people in your industry who may help you take the next step in your career.", Price = 85.00M, StartTime = new DateTime(2020, 8, 28, 4, 00, 00), EndTime = new DateTime(2020, 8, 28, 5, 00, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/5" },
+                new EventItem {EventOrganizerId = 6, EventTypeId = 15, EventAddressId = 6, EventVenueId = 1, Name = "Monthly Town Hall Meeting", Description = "Hear the latest updates and voice concerns or suggestions to the City Council.", Price = 0.00M, StartTime = new DateTime(2020, 7, 5, 3, 00, 00), EndTime = new DateTime(2020, 7, 5, 4, 00, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/6" },
+                new EventItem {EventOrganizerId = 7, EventTypeId = 8, EventAddressId = 7, EventVenueId = 1, Name = "Cultural Festival", Description = "Try a wide variety of food and learn the traditions of the cultures that make our community so vibrant.", Price = 10.00M, StartTime = new DateTime(2020, 8, 15, 7, 00, 00), EndTime = new DateTime(2020, 8, 15, 9, 00, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/7" },
+                new EventItem {EventOrganizerId = 1, EventTypeId = 2, EventAddressId = 8, EventVenueId = 1, Name = "Drinks on Fifth", Description = "Participating bartenders will offer their signature cocktails to sample.", Price = 45.00M, StartTime = new DateTime(2020, 12, 1, 8, 00, 00), EndTime = new DateTime(2020, 12, 1, 11, 00, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/8" },
+                new EventItem {EventOrganizerId = 2, EventTypeId = 1, EventAddressId = 9, EventVenueId = 1, Name = "The Next Big Thing", Description = "Learn which businesses will be booming in the next few years.", Price = 55.00M, StartTime = new DateTime(2020, 12, 5, 5, 00, 00), EndTime = new DateTime(2020, 12, 5, 6, 00, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/9" },
+                new EventItem {EventOrganizerId = 3, EventTypeId = 18, EventAddressId = 10, EventVenueId = 1, Name = "Puzzle Quest", Description = "Form a team and try to solve the most puzzles in this day long puzzle event.", Price = 15.00M, StartTime = new DateTime(2020, 10, 5, 8, 00, 00), EndTime = new DateTime(2020, 10, 5, 10, 00, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/10" },
+                new EventItem {EventOrganizerId = 4, EventTypeId = 11, EventAddressId = 11, EventVenueId = 1, Name = "Symphoney Number Two", Description = "Relax as you listen to classics such as Mozart.", Price = 30.00M, StartTime = new DateTime(2020, 10, 22, 5, 00, 00), EndTime = new DateTime(2020, 10, 22, 7, 00, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/4" },
+                new EventItem {EventOrganizerId = 5, EventTypeId = 18, EventAddressId = 12, EventVenueId = 1, Name = "Video Game Night", Description = "Get your controllers ready as we hold MarioKart and Super Smash Bros tournaments.", Price = 20.00M, StartTime = new DateTime(2020, 7, 2, 5, 00, 00), EndTime = new DateTime(2020, 7, 2, 6, 00, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/11" },
+                new EventItem {EventOrganizerId = 6, EventTypeId = 15, EventAddressId = 13, EventVenueId = 1, Name = "Monthly Town Hall Meeting", Description = "Hear the latest updates and voice concerns or suggestions to the City Council.", Price = 0.00M, StartTime = new DateTime(2020, 8, 12, 4, 00, 00), EndTime = new DateTime(2020, 8, 12, 5, 00, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/6" },
+                new EventItem {EventOrganizerId = 7, EventTypeId = 8, EventAddressId = 14, EventVenueId = 1, Name = "Know Your Neighbor Forum", Description = "Hear fellow community members tell their experiences living in your town.", Price = 0.00M, StartTime = new DateTime(2020, 11, 19, 5, 00, 00), EndTime = new DateTime(2020, 11, 19, 8, 00, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/12" },
+                new EventItem {EventOrganizerId = 1, EventTypeId = 2, EventAddressId = 15, EventVenueId = 1, Name = "Intro to the Old Fashioned", Description = "Learn how to make this classic cocktail that all bartenders should know.", Price = 50.00M, StartTime = new DateTime(2020, 10, 1, 5, 00, 00), EndTime = new DateTime(2020, 10, 1, 6, 00, 00), PictureURL = "http://externalcatalogbaseurltobereplaced/api/pic/13" }
+            };
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EventCatalogAPI.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace EventCatalogAPI.Controllers
