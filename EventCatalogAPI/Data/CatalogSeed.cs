@@ -25,6 +25,12 @@ namespace EventCatalogAPI.Data
                 catalogContext.SaveChanges();
             }
 
+            if (!catalogContext.Venues.Any())
+            {
+                catalogContext.Venues.AddRange(GetVenues());
+                catalogContext.SaveChanges();
+            }          
+          
             if (!catalogContext.EventOrganizers.Any())
             {
                 catalogContext.EventOrganizers.AddRange(GetEventOrganizers());
@@ -36,6 +42,52 @@ namespace EventCatalogAPI.Data
                 catalogContext.EventItems.AddRange(GetEventItems());
                 catalogContext.SaveChanges();
             }
+        }
+
+        private static IEnumerable<Venue> GetVenues()
+        {
+            return new List<Venue>
+            {
+                new Venue
+                {
+                    VenueAddressId = 21,
+                    EventOrganizerId = 5,
+                    AgeRestriction = 18,
+                    Capacity = 10000,
+                    VenueName = "Conference Center"
+                },
+                new Venue
+                {
+                    VenueAddressId = 22,
+                    EventOrganizerId = 4,
+                    AgeRestriction = 0,
+                    Capacity = 5,
+                    VenueName = "Aunty's Attic Store"
+                },
+                new Venue
+                {
+                    VenueAddressId = 23,
+                    EventOrganizerId = 3,
+                    Capacity = 1000,
+                    VenueName = "Job Fairground"
+                },
+                new Venue
+                {
+                    VenueAddressId = 24,
+                    EventOrganizerId = 2,
+                    AgeRestriction = 21,
+                    Capacity = 200,
+                    VenueName = "Red Winery"
+                },
+                new Venue
+                {
+                    VenueAddressId = 25,
+                    EventOrganizerId = 1,
+                    AgeRestriction = 12,
+                    Capacity = 10,
+                    VenueName = "Kids Camp"
+                }
+            };
         }
 
         private static IEnumerable<EventType> GetEventTypes()
@@ -372,6 +424,46 @@ namespace EventCatalogAPI.Data
                     PostalCode = "33470",
                    // Latitude = 0,
                    // Longitude = 0
+                },
+                new Address
+                {
+                    address1 = "2312 Cactus Rio Ln",
+                    City = "Weatherford",
+                    County = "Islands",
+                    Region = "TX",
+                    PostalCode = "76087"
+                },
+                new Address
+                {
+                    address1 = "2887 Teapot Ct",
+                    address2 = "Suite 101",
+                    City = "Reynoldsburg",
+                    Region = "OH", //2- or 3-character region code for the state or district
+                    PostalCode = "43068"
+                },
+                new Address
+                {
+                    address1 = "172 Concord St",
+                    City = "Marion",
+                    County = "King",
+                    Region = "LA", //2- or 3-character region code for the state or district
+                    PostalCode = "71260"
+                },
+                new Address
+                {
+                    address1 = "144 Tubman Cir",
+                    City = "Natchez",
+                    County = "Grand",
+                    Region = "MS", //2- or 3-character region code for the state or district
+                    PostalCode = "39120"
+                },
+                new Address
+                {
+                    address1 = "1422 Wamajo Dr",
+                    City = "Sandusky",
+                    County = "Path",
+                    Region = "OH", //2- or 3-character region code for the state or district
+                    PostalCode = "44870"
                 }
             };
         }
