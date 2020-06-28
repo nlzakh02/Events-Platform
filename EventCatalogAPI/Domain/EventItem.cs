@@ -23,7 +23,7 @@ namespace EventCatalogAPI.Domain
 
         // Property types below may need to be changed if class names are different
         public EventOrganizer EventOrganizer { get; set; }
-        public EventCategory EventCategory { get; set; }
+        public EventType EventType { get; set; }
         public State EventState { get; set; }
         public County EventCounty { get; set; }
     }

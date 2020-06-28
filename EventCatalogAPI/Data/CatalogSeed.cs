@@ -13,9 +13,9 @@ namespace EventCatalogAPI.Data
         public static void Seed(CatalogContext catalogContext)
         {
             catalogContext.Database.Migrate();
-            if (!catalogContext.EventCategories.Any())
+            if (!catalogContext.EventTypes.Any())
             {
-                catalogContext.EventCategories.AddRange(GetEventCategories());
+                catalogContext.EventTypes.AddRange(GetEventTypes());
                 catalogContext.SaveChanges();
             }
             if (!catalogContext.Addresses.Any())
@@ -23,95 +23,161 @@ namespace EventCatalogAPI.Data
                 catalogContext.Addresses.AddRange(GetAddresses());
                 catalogContext.SaveChanges();
             }
+            if (!catalogContext.Venues.Any())
+            {
+                catalogContext.Venues.AddRange(GetVenues());
+                catalogContext.SaveChanges();
+            }
         }
 
-        private static IEnumerable<EventCategory> GetEventCategories()
+        private static IEnumerable<Venue> GetVenues()
+        {
+            return new List<Venue>
             {
-            return new List<EventCategory>
+                new Venue
                 {
-                    new EventCategory
+                    Address = { address1 = "2312 Cactus Rio Ln",
+                                City = "Weatherford",
+                                County = "Islands",
+                                Region = "TX", //2- or 3-character region code for the state or district
+                                PostalCode = "76087",},
+                    AgeRestriction = 18,
+                    Capacity = 10000,
+                    Name = "Conference Center"
+                },
+                new Venue
+                {
+                    Address = { address1 = "2887 Teapot Ct",
+                                address2 = "Suite 101",
+                                City = "Reynoldsburg",
+                                Region = "OH", //2- or 3-character region code for the state or district
+                                PostalCode = "43068",},
+                    AgeRestriction = 0,
+                    Capacity = 5,
+                    Name = "Aunty's Attic Store"
+                },
+                new Venue
+                {
+                    Address = { address1 = "172 Concord St",
+                                City = "Marion",
+                                County = "King",
+                                Region = "LA", //2- or 3-character region code for the state or district
+                                PostalCode = "71260",},                    
+                    Capacity = 1000,
+                    Name = "Job Fairground"
+                },
+                new Venue
+                {
+                    Address = { address1 = "144 Tubman Cir",
+                                City = "Natchez",
+                                County = "Grand",
+                                Region = "MS", //2- or 3-character region code for the state or district
+                                PostalCode = "39120",},
+                    AgeRestriction = 21,
+                    Capacity = 200,
+                    Name = "Red Winery"
+                },
+                new Venue
+                {
+                    Address = { address1 = "1422 Wamajo Dr",
+                                City = "Sandusky",
+                                County = "Path",
+                                Region = "OH", //2- or 3-character region code for the state or district
+                                PostalCode = "44870",},
+                    AgeRestriction = 12,
+                    Capacity = 10,
+                    Name = "Kids Camp"
+                }
+            };
+        }
+
+        private static IEnumerable<EventType> GetEventTypes()
+            {
+            return new List<EventType>
+                {
+                    new EventType
                     {
-                        CategoryName = "Business"
+                        Type = "Business"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Food & Drink"
+                        Type = "Food & Drink"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Health"
+                        Type = "Health"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Music"
+                        Type = "Music"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Auto, Boat & Air"
+                        Type = "Auto, Boat & Air"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Charity & Causes"
+                        Type = "Charity & Causes"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Community"
+                        Type = "Community"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Family & Education"
+                        Type = "Family & Education"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Fashion"
+                        Type = "Fashion"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Film & Media"
+                        Type = "Film & Media"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Hobbies"
+                        Type = "Hobbies"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Home & Lifestyle"
+                        Type = "Home & Lifestyle"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Performing & Visual Arts"
+                        Type = "Performing & Visual Arts"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Government"
+                        Type = "Government"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Spirituality"
+                        Type = "Spirituality"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "School Activities"
+                        Type = "School Activities"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Science & Tech"
+                        Type = "Science & Tech"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Holiday"
+                        Type = "Holiday"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Sports & Fitness"
+                        Type = "Sports & Fitness"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Travel & Outdoor"
+                        Type = "Travel & Outdoor"
                     },
-                    new EventCategory
+                    new EventType
                     {
-                        CategoryName = "Other"
+                        Type = "Other"
                     }
                 };
             }

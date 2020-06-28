@@ -16,7 +16,7 @@ namespace EventCatalogAPI.Data
         }
         
         public DbSet<EventItem> EventItems { get; set; }
-
+        public DbSet<EventType> EventTypes { get; set; }
         public DbSet<Venue> Venues { get; set; }
         public DbSet<Address> Addresses { get; set; }
 
@@ -85,9 +85,10 @@ namespace EventCatalogAPI.Data
                 // Needs editing to match definitions of organizing parties
                 // Same venue can be used by many organizations
                 // One organization can use multiple venues
-                e.HasMany(x => x.OrganizationId)
-                 .WithMany()
-                 .HasForeignKey(c => c.OrganizerID);
+
+            //    e.HasMany(x => x.OrganizationId)
+            //     .WithMany()
+            //     .HasForeignKey(c => c.OrganizerID);
 
                 e.Property(x => x.Address)
                  .IsRequired();
@@ -107,8 +108,6 @@ namespace EventCatalogAPI.Data
               //  e.Property(x => x.Longitude)
               //   .IsRequired();
             });
-
-        
 
         modelBuilder.Entity<Address>(e =>
             {
@@ -169,7 +168,7 @@ namespace EventCatalogAPI.Data
 
             modelBuilder.Entity<EventType>(i =>
             {
-                i.ToTable("EventType");
+                i.ToTable("EventTypes");
                 i.Property(t => t.Id)
                    .IsRequired()
                    .UseHiLo("event_type_hilo");
