@@ -121,7 +121,7 @@ namespace EventCatalogAPI.Controllers
                 PageIndex = pageIndex,
                 PageSize = finalvenues.Count,
                 Count = venuesCount,
-                Data = finalvenues
+                Data = (IEnumerable<Venue>)finalvenues
             };
 
             return Ok(model);
@@ -180,7 +180,7 @@ namespace EventCatalogAPI.Controllers
                 PageIndex = pageIndex,
                 PageSize = venues.Count,
                 Count = venuesCount,
-                Data = venues
+                Data = (IEnumerable<Venue>)venues
             };
 
             return Ok(model);
