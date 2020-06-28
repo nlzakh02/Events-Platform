@@ -8,27 +8,30 @@ namespace EventCatalogAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateSequence(
-                name: "event_item_hilo",
+                name: "Addresses_hilo",
                 incrementBy: 10);
 
             migrationBuilder.CreateSequence(
-                name: "event_organizer_hilo",
+                name: "eventItems_hilo",
                 incrementBy: 10);
 
             migrationBuilder.CreateSequence(
-                name: "event_type_hilo",
+                name: "eventorganizer_hilo",
                 incrementBy: 10);
 
             migrationBuilder.CreateSequence(
-                name: "venues_hilo",
+                name: "eventtype_hilo",
+                incrementBy: 10);
+
+            migrationBuilder.CreateSequence(
+                name: "venueshilo",
                 incrementBy: 10);
 
             migrationBuilder.CreateTable(
                 name: "Addresses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false),
                     address1 = table.Column<string>(maxLength: 50, nullable: false),
                     address2 = table.Column<string>(maxLength: 50, nullable: true, defaultValue: "None"),
                     address3 = table.Column<string>(maxLength: 50, nullable: true, defaultValue: "None"),
@@ -75,7 +78,6 @@ namespace EventCatalogAPI.Migrations
                 {
                     VenueID = table.Column<int>(nullable: false),
                     VenueAddressId = table.Column<int>(nullable: false),
-                    EventOrganizerId = table.Column<int>(nullable: false),
                     AgeRestriction = table.Column<int>(nullable: false, defaultValue: -1),
                     Capacity = table.Column<int>(nullable: false, defaultValue: -1),
                     VenueName = table.Column<string>(maxLength: 100, nullable: true)
@@ -83,12 +85,6 @@ namespace EventCatalogAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Venues", x => x.VenueID);
-                    table.ForeignKey(
-                        name: "FK_Venues_EventOrganizers_EventOrganizerId",
-                        column: x => x.EventOrganizerId,
-                        principalTable: "EventOrganizers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Venues_Addresses_VenueAddressId",
                         column: x => x.VenueAddressId,
@@ -139,7 +135,7 @@ namespace EventCatalogAPI.Migrations
                         column: x => x.EventVenueId,
                         principalTable: "Venues",
                         principalColumn: "VenueID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -163,11 +159,6 @@ namespace EventCatalogAPI.Migrations
                 column: "EventVenueId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Venues_EventOrganizerId",
-                table: "Venues",
-                column: "EventOrganizerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Venues_VenueAddressId",
                 table: "Venues",
                 column: "VenueAddressId");
@@ -179,28 +170,31 @@ namespace EventCatalogAPI.Migrations
                 name: "EventItems");
 
             migrationBuilder.DropTable(
+                name: "EventOrganizers");
+
+            migrationBuilder.DropTable(
                 name: "EventTypes");
 
             migrationBuilder.DropTable(
                 name: "Venues");
 
             migrationBuilder.DropTable(
-                name: "EventOrganizers");
-
-            migrationBuilder.DropTable(
                 name: "Addresses");
 
             migrationBuilder.DropSequence(
-                name: "event_item_hilo");
+                name: "Addresses_hilo");
 
             migrationBuilder.DropSequence(
-                name: "event_organizer_hilo");
+                name: "eventItems_hilo");
 
             migrationBuilder.DropSequence(
-                name: "event_type_hilo");
+                name: "eventorganizer_hilo");
 
             migrationBuilder.DropSequence(
-                name: "venues_hilo");
+                name: "eventtype_hilo");
+
+            migrationBuilder.DropSequence(
+                name: "venueshilo");
         }
     }
 }

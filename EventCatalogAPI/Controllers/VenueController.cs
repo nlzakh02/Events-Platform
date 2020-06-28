@@ -32,7 +32,7 @@ namespace EventCatalogAPI.Controllers
         [HttpGet("[action]/{id}")]
         public IActionResult GetVenue(int id)
         {
-            return (IActionResult)_context.Venues.Where(v => v.VenueID == id);
+            return Ok(_context.Venues.Where(v => v.VenueID == id).ToList());
         }
 
         // List requested number of items from the page with requested index
@@ -92,7 +92,7 @@ namespace EventCatalogAPI.Controllers
                                         new
                                         {
                                             Id = venloc.VenueID,
-                                            eventOrganizerId = venloc.EventOrganizerId,
+                                            //eventOrganizerId = venloc.EventOrganizerId,
                                             ageRestriction = venloc.AgeRestriction,
                                             capacity = venloc.Capacity,
                                             name = venloc.VenueName,
@@ -151,7 +151,7 @@ namespace EventCatalogAPI.Controllers
                                         new
                                         {
                                             Id = venloc.VenueID,
-                                            eventOrganizerId = venloc.EventOrganizerId,
+                                            //eventOrganizerId = venloc.EventOrganizerId,
                                             ageRestriction = venloc.AgeRestriction,
                                             capacity = venloc.Capacity,
                                             name = venloc.VenueName,
