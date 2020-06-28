@@ -91,7 +91,7 @@ namespace EventCatalogAPI.Controllers
             return Ok(organizers);
         }
 
-        [HttpGet("[action]/type/{eventTypeId}/brand/{eventOrganizerId}")]
+        [HttpGet("[action]/type/{eventTypeId}/organizer/{eventOrganizerId}")]
         public async Task<IActionResult> Items(
             int? eventTypeId,
             int? eventOrganizerId,
