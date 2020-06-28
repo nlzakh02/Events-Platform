@@ -12,6 +12,8 @@ namespace EventCatalogAPI.Data
     {
         public static void Seed(CatalogContext catalogContext)
         {
+            // Uncomment the next line of code to delete the database for when any schema changes are made. 
+            //catalogContext.Database.EnsureDeleted();
             catalogContext.Database.Migrate();
             if (!catalogContext.EventTypes.Any())
             {

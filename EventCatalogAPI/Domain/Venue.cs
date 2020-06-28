@@ -11,7 +11,7 @@ namespace EventCatalogAPI.Domain
         public int VenueID { get; set; }
         public int VenueAddressId { get; set; }
         public Address VenueAddress { get; set; }
-       // public EventOrganizer Organizer { get; set; }
+        //public EventOrganizer Organizer { get; set; }
         //public int EventOrganizerId { get; set; } // Id of organzation that created venue in database
         public int AgeRestriction { get; set; }
         public int Capacity { get; set; }
