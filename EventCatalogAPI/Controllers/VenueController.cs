@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using EventCatalogAPI.ViewModels;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace EventCatalogAPI.Controllers
 {
@@ -44,15 +45,15 @@ namespace EventCatalogAPI.Controllers
             var venuesCount = await _context.Venues.LongCountAsync();
 
             var venues = await _context.Venues
-                            .OrderBy(c => c.Name)
+                            .OrderBy(c => c.VenueName)
                             .Skip(pageIndex * pageSize)
                             .Take(pageSize)
                             .ToListAsync();
 
             var model = new PaginatedItemsViewModel<Venue>
             {
-                pageIndex = pageIndex,
-                pageSize = venues.Count,
+                PageIndex = pageIndex,
+                PageSize = venues.Count,
                 Count = venuesCount,
                 Data = venues
             };
@@ -60,6 +61,7 @@ namespace EventCatalogAPI.Controllers
             return Ok(model);
         }
 
+        // Filter venues by state and city
         [HttpGet("[action]/state/{stateId}/city/{cityId}")]
         public async Task<IActionResult> GetVenue(
             string stateId = "None",
@@ -67,30 +69,116 @@ namespace EventCatalogAPI.Controllers
             [FromQuery] int pageIndex = 0,
             [FromQuery] int pageSize = 6)
         {
-            var query = (IQueryable<Venue>)_context.Venues;
+            var venues = (IQueryable<Venue>)_context.Venues;
 
+            var addresses = (IQueryable<Address>)_context.Addresses;
+
+            // Filter on state
             if (stateId != "None")
             {
-                query = query.Where(v => v.Address.Region == stateId);
+                addresses = addresses.Where(v => v.Region == stateId);
             }
 
+            // Filter on city
             if (cityId != "None")
             {
-                query = query.Where(v => v.Address.City == cityId);
+                addresses = addresses.Where(v => v.City == cityId);
             }
+
+            var query = venues.Join(addresses,
+                                    venloc => venloc.VenueAddressId,
+                                    addr => addr.Id,
+                                    (venloc, addr) =>
+                                        new
+                                        {
+                                            Id = venloc.VenueID,
+                                            eventOrganizerId = venloc.EventOrganizerId,
+                                            ageRestriction = venloc.AgeRestriction,
+                                            capacity = venloc.Capacity,
+                                            name = venloc.VenueName,
+                                            address_1 = addr.address1,
+                                            address_2 = addr.address2,
+                                            address_3 = addr.address3,
+                                            city = addr.City,
+                                            county = addr.County,
+                                            region = addr.Region,
+                                            postalCode = addr.PostalCode,
+                                            country = addr.Country,
+                                            latitude = addr.Latitude,
+                                            longitude = addr.Longitude
+                                        });
+
+            var venuesCount = await query.LongCountAsync();
+
+            var finalvenues = await query
+                                    .OrderBy(c => c.name)
+                                    .Skip(pageIndex * pageSize)
+                                    .Take(pageSize)
+                                    .ToListAsync();
+
+            var model = new PaginatedItemsViewModel<Venue>
+            {
+                PageIndex = pageIndex,
+                PageSize = finalvenues.Count,
+                Count = venuesCount,
+                Data = finalvenues
+            };
+
+            return Ok(model);
+        }
+
+        // Filter venues by state
+        [HttpGet("[action]/state/{stateId}")]
+        public async Task<IActionResult> GetVenue(
+            string stateId = "None",
+            [FromQuery] int pageIndex = 0,
+            [FromQuery] int pageSize = 6)
+        {
+          //  var venues = (IQueryable<Venue>)_context.Venues;
+
+            var addresses = (IQueryable<Address>)_context.Addresses;
+
+            // Filter on state
+            if (stateId != "None")
+            {
+                addresses = addresses.Where(v => v.Region == stateId);
+            }
+
+            var query = _context.Venues.Join(addresses,
+                                    venloc => venloc.VenueAddressId,
+                                    addr => addr.Id,
+                                    (venloc, addr) =>
+                                        new
+                                        {
+                                            Id = venloc.VenueID,
+                                            eventOrganizerId = venloc.EventOrganizerId,
+                                            ageRestriction = venloc.AgeRestriction,
+                                            capacity = venloc.Capacity,
+                                            name = venloc.VenueName,
+                                            address_1 = addr.address1,
+                                            address_2 = addr.address2,
+                                            address_3 = addr.address3,
+                                            city = addr.City,
+                                            county = addr.County,
+                                            region = addr.Region,
+                                            postalCode = addr.PostalCode,
+                                            country = addr.Country,
+                                            latitude = addr.Latitude,
+                                            longitude = addr.Longitude
+                                        });
 
             var venuesCount = await query.LongCountAsync();
 
             var venues = await query
-                            .OrderBy(c => c.Name)
-                            .Skip(pageIndex * pageSize)
-                            .Take(pageSize)
-                            .ToListAsync();
+                                    .OrderBy(c => c.name)
+                                    .Skip(pageIndex * pageSize)
+                                    .Take(pageSize)
+                                    .ToListAsync();
 
             var model = new PaginatedItemsViewModel<Venue>
             {
-                pageIndex = pageIndex,
-                pageSize = venues.Count,
+                PageIndex = pageIndex,
+                PageSize = venues.Count,
                 Count = venuesCount,
                 Data = venues
             };

@@ -77,17 +77,13 @@ namespace EventCatalogAPI.Data
                  .IsRequired()
                  .UseHiLo("venues_hilo");
 
-                // Needs editing to match definitions of organizing parties
-                // Same venue can be used by many organizations
-                // One organization can use multiple venues
+                e.HasOne(x => x.VenueAddress)
+                 .WithMany()
+                 .HasForeignKey(x => x.VenueAddressId);
 
-                //e.HasMany(x => x.OrganizationId)
-                // .WithMany()
-                // .HasForeignKey(c => c.OrganizerID);
-
-
-                e.Property(x => x.Address)
-                 .IsRequired();
+                e.HasOne(x => x.Organizer)
+                 .WithMany()
+                 .HasForeignKey(x => x.EventOrganizerId);
 
                 e.Property(x => x.AgeRestriction)
                  .HasDefaultValue(-1);
@@ -95,7 +91,7 @@ namespace EventCatalogAPI.Data
                 e.Property(x => x.Capacity)
                  .HasDefaultValue(-1);
 
-                e.Property(x => x.Name)
+                e.Property(x => x.VenueName)
                  .HasMaxLength(100);
 
                // e.Property(x => x.Latitude)
@@ -105,12 +101,11 @@ namespace EventCatalogAPI.Data
               //   .IsRequired();
             });
 
-
             modelBuilder.Entity<Address>(e =>
             {
                 e.ToTable("Addresses");
 
-                e.Property(x => x.AddressId)
+                e.Property(x => x.Id)
                  .IsRequired();
 
                 e.Property(x => x.address1)

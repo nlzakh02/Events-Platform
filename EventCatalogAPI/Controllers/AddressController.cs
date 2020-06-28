@@ -26,11 +26,11 @@ namespace EventCatalogAPI.Controllers
             _config = config;
         }
 
-        // Get a single address
+        // Get a single address by Id
         [HttpGet("[action]/{id}")]
         public IActionResult GetAddress(int id)
         {
-            return (IActionResult)_context.Addresses.Where(v => v.AddressId == id);
+            return (IActionResult)_context.Addresses.Where(v => v.Id == id);
         }
 
         // List requested number of items from the page with requested index
@@ -49,8 +49,8 @@ namespace EventCatalogAPI.Controllers
 
             var model = new PaginatedItemsViewModel<Address>
             {
-                pageIndex = pageIndex,
-                pageSize = addresses.Count,
+                PageIndex = pageIndex,
+                PageSize = addresses.Count,
                 Count = addressesCount,
                 Data = addresses
             };
@@ -88,8 +88,8 @@ namespace EventCatalogAPI.Controllers
 
             var model = new PaginatedItemsViewModel<Address>
             {
-                pageIndex = pageIndex,
-                pageSize = addresses.Count,
+                PageIndex = pageIndex,
+                PageSize = addresses.Count,
                 Count = addressesCount,
                 Data = addresses
             };
@@ -121,8 +121,8 @@ namespace EventCatalogAPI.Controllers
 
             var model = new PaginatedItemsViewModel<Address>
             {
-                pageIndex = pageIndex,
-                pageSize = addresses.Count,
+                PageIndex = pageIndex,
+                PageSize = addresses.Count,
                 Count = addressesCount,
                 Data = addresses
             };

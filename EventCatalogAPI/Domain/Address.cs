@@ -8,7 +8,7 @@ namespace EventCatalogAPI.Domain
     public class Address
     {
         // All fields apart from address_1 and country are optional.
-        public int AddressId { get; set; }
+        public int Id { get; set; }
         public string address1 { get; set; } // The street/location address (part 1)
         public string address2 { get; set; } // The street/location address (part 2)
         public string address3 { get; set; } // The street/location address (part 3)
