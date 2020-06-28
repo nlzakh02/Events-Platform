@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EventCatalogAPI.ViewModels
 {
-    public class PaginatedItemsViewModel
+    public class PaginatedItemsViewModel<T>
     {
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
