@@ -30,7 +30,7 @@ namespace EventCatalogAPI.Controllers
         [HttpGet("[action]/{id}")]
         public IActionResult GetAddress(int id)
         {
-            return (IActionResult)_context.Addresses.Where(v => v.Id == id);
+            return Ok(_context.Addresses.Where(v => v.Id == id).ToList());
         }
 
         // List requested number of items from the page with requested index

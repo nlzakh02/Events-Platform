@@ -29,7 +29,7 @@ namespace EventCatalogAPI.Data
 
                 i.Property(p => p.Id)
                     .IsRequired()
-                    .UseHiLo("event_item_hilo");
+                    .UseHiLo("eventItems_hilo");
 
                 i.Property(p => p.Name)
                     .IsRequired()
@@ -65,9 +65,9 @@ namespace EventCatalogAPI.Data
 
                 i.HasOne(c => c.EventVenue)
                     .WithMany()
-                    .HasForeignKey(c => c.EventVenueId);
+                    .HasForeignKey(c => c.EventVenueId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
-
 
             modelBuilder.Entity<Venue>( e =>
             {
@@ -75,15 +75,15 @@ namespace EventCatalogAPI.Data
 
                 e.Property(x => x.VenueID)
                  .IsRequired()
-                 .UseHiLo("venues_hilo");
+                 .UseHiLo("venueshilo");
 
                 e.HasOne(x => x.VenueAddress)
                  .WithMany()
                  .HasForeignKey(x => x.VenueAddressId);
 
-                e.HasOne(x => x.Organizer)
+                /*e.HasOne(x => x.Organizer)
                  .WithMany()
-                 .HasForeignKey(x => x.EventOrganizerId);
+                 .HasForeignKey(x => x.EventOrganizerId);*/
 
                 e.Property(x => x.AgeRestriction)
                  .HasDefaultValue(-1);
@@ -106,7 +106,8 @@ namespace EventCatalogAPI.Data
                 e.ToTable("Addresses");
 
                 e.Property(x => x.Id)
-                 .IsRequired();
+                 .IsRequired()
+                 .UseHiLo("Addresses_hilo"); ;
 
                 e.Property(x => x.address1)
                  .IsRequired()
@@ -143,15 +144,14 @@ namespace EventCatalogAPI.Data
 
                 e.Property(x => x.Longitude)
                  .HasDefaultValue(900);
-           });
-                 
+           });                 
 
             modelBuilder.Entity<EventOrganizer>(i =>
             {
                 i.ToTable("EventOrganizers");
                 i.Property(o => o.Id)
                    .IsRequired()
-                   .UseHiLo("event_organizer_hilo");
+                   .UseHiLo("eventorganizer_hilo");
 
                 i.Property(o => o.Name)
                    .IsRequired()
@@ -163,7 +163,7 @@ namespace EventCatalogAPI.Data
                 i.ToTable("EventTypes");
                 i.Property(t => t.Id)
                    .IsRequired()
-                   .UseHiLo("event_type_hilo");
+                   .UseHiLo("eventtype_hilo");
 
                 i.Property(t => t.Type)
                    .IsRequired()
