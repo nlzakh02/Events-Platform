@@ -27,7 +27,7 @@ namespace EventCatalogAPI.Controllers
         }
 
         // Get a single address
-        [HttpGet("[action]")]
+        [HttpGet("[action]/{id}")]
         public IActionResult GetAddress(int id)
         {
             return (IActionResult)_context.Addresses.Where(v => v.AddressId == id);

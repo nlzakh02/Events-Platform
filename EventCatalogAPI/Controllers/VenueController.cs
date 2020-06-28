@@ -28,7 +28,7 @@ namespace EventCatalogAPI.Controllers
         }
 
         // Get a single venue
-        [HttpGet("[action]")]
+        [HttpGet("[action]/{id}")]
         public IActionResult GetVenue(int id)
         {
             return (IActionResult)_context.Venues.Where(v => v.VenueID == id);
