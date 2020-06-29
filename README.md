@@ -1,33 +1,11 @@
-# Events-Platform
+## Events Platform
 
-Events
-- ID
-- Summary
-- Description
-- Start Time
-- Duration
-- Date
-- Image
-- Foreign Key: Event Organizer
-- Foreign Key: Event Type
-- Foreign Key: Event Location (State)
-
-Event Organizer
-- ID
-- Name
-
-Event Types
-- ID
-- Type 
-
-Event Location (State)
-- ID
-- State 
-
-Event Location (County)
-- ID
-- County
-- Foreign Key: State
+The overarching goal of this assignment is to build an [eventbrite](http://eventbrite.com) like web site with focus on backend microservices.
 
 
+### Part 1
 
+In this part of the assignment we built a first version of the API for accesing the catalog.
+
+__Demo Video:__  
+https://www.youtube.com/watch?v=Q5uiWqk4TRI
