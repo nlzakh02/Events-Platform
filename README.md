@@ -1,6 +1,7 @@
 ## Events Platform
 
-The overarching goal of this assignment is to build an [eventbrite](http://eventbrite.com) like web site with focus on backend microservices.
+The overarching goal of this assignment is to build an [eventbrite](http://eventbrite.com) like web site.  
+The main focus is on developing and deploying backend microservices.
 
 
 ### Part 1
