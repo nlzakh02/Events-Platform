@@ -99,9 +99,7 @@ namespace EventCatalogAPI.Controllers
             [FromQuery]int pageSize = 6
             )
         {
-            var query = (IQueryable<EventItem>)_context.EventItems
-                    .Include(c => c.EventOrganizer)
-                    .Include(c => c.EventType);
+            var query = (IQueryable<EventItem>)_context.EventItems;
 
             if (eventTypeId.HasValue)
             {
