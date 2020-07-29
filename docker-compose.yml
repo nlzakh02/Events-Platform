@@ -32,8 +32,8 @@ services:
       dockerfile: Dockerfile
     environment:
       CatalogUrl: http://catalog
-      IdentityUrl: http://10.0.0.88:6700
-      CallBackUrl: http://localhost:6811
+      IdentityUrl: http://10.0.0.88:6817
+      CallBackUrl: http://localhost:6816
     ports:
       - "6816:80"
     container_name: webeventshop
@@ -48,9 +48,9 @@ services:
       dockerfile: Dockerfile
     image: jewels/tokenapi
     environment:
-      MvcClient: http://localhost:6811
+      MvcClient: http://localhost:6816
     ports:
-      - "6700:80"
+      - "6817:80"
     container_name: tokenserviceapi
     networks:
       - backend
