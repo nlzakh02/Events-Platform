@@ -10,7 +10,7 @@ namespace WebMvc.Services
     public interface ICatalogService
     {
         Task<Catalog> GetCatalogItemsAsync(int page, int size, int? organizer, int? type);
-        Task<IEnumerable<SelectListItem>> GetOragizersAsync();
+        Task<IEnumerable<SelectListItem>> GetOrganizersAsync();
         Task<IEnumerable<SelectListItem>> GetTypesAsync();
         
     }
