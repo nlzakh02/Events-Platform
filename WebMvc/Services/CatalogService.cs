@@ -17,20 +17,20 @@ namespace WebMvc.Services
         private readonly IHttpClient _client;
         public CatalogService(IConfiguration config, IHttpClient client)
         {
-            _baseUrl = $"{config["CatalogUrl"]}/api/catalog/";
+            _baseUrl = $"{config["CatalogUrl"]}/api/event/";
             _client = client;
 
         }
 
         public async Task<Catalog> GetCatalogItemsAsync(int page, int size, int? organizer, int? type)
         {
-            var eventItemsUri = ApiPaths.Catalog.GetAllEventItems(_baseUrl, page, size, organizer, type);
+            var eventItemsUri = ApiPaths.Catalog.GetAllEventItems(_baseUrl, page, size, type, organizer);
             var dataString = await _client.GetStringAsync(eventItemsUri);
             return JsonConvert.DeserializeObject<Catalog>(dataString);
         }
 
 
-        public async Task<IEnumerable<SelectListItem>> GetOragizersAsync()
+        public async Task<IEnumerable<SelectListItem>> GetOrganizersAsync()
         {
             var organizerUri = ApiPaths.Catalog.GetAllOrganizers(_baseUrl);
             var dataString = await _client.GetStringAsync(organizerUri);
@@ -50,7 +50,7 @@ namespace WebMvc.Services
                     new SelectListItem
                     {
                         Value = organizer.Value<string>("id"),
-                        Text = organizer.Value<string>("organizer")
+                        Text = organizer.Value<string>("name")
                     });
             }
             return items;
