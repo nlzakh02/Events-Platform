@@ -32,7 +32,8 @@ services:
       dockerfile: Dockerfile
     environment:
       CatalogUrl: http://catalog
-      IdentityUrl: http://10.0.0.88:6817
+      CartUrl: http://cart
+      IdentityUrl: http://10.0.6.153:6817
       CallBackUrl: http://localhost:6816
     ports:
       - "6816:80"
@@ -46,7 +47,7 @@ services:
     build:
       context: .\TokenServiceApi
       dockerfile: Dockerfile
-    image: jewels/tokenapi
+    image: events/tokenapi
     environment:
       MvcClient: http://localhost:6816
     ports:
@@ -58,6 +59,24 @@ services:
     depends_on:
       - mssqlserver
 
+  cart:
+    build:
+      context: .\CartApi
+      dockerfile: Dockerfile
+    image: events/cartapi
+    environment:
+      IdentityUrl: http://10.0.6.153:6818
+      ConnectionString: basket.data
+    ports:
+      - "6818:80"
+    container_name: cartapi
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - tokenserver
+      - basket.data
+
   mssqlserver:
     image: "microsoft/mssql-server-linux:latest"
     environment:
@@ -66,5 +85,13 @@ services:
     ports:
       - "1450:1433"
     container_name: eventsqlserver
+    networks:
+      - backend
+
+  basket.data:
+    image: redis
+    container_name: basketdate
+    ports:
+      - "6081:6379"
     networks:
       - backend
