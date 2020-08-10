@@ -11,12 +11,12 @@ namespace WebMvc.Infrastructure
         {
             public static string GetAllTypes(string baseUri)
             {
-                return $"{baseUri}/EventTypes";
+                return $"{baseUri}EventTypes";
             }
 
             public static string GetAllOrganizers(string baseUri)
             {
-                return $"{baseUri}/EventOrganizers";
+                return $"{baseUri}EventOrganizers";
             }
 
             public static string GetAllEventItems(string baseUri, int page, int take, int? type, int? organizer)

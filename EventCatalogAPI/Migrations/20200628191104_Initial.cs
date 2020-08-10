@@ -103,7 +103,7 @@ namespace EventCatalogAPI.Migrations
                     StartTime = table.Column<DateTime>(nullable: false),
                     EndTime = table.Column<DateTime>(nullable: false),
                     Price = table.Column<decimal>(nullable: false),
-                    PictureURL = table.Column<string>(nullable: false),
+                    PictureUrl = table.Column<string>(nullable: false),
                     EventOrganizerId = table.Column<int>(nullable: false),
                     EventTypeId = table.Column<int>(nullable: false),
                     EventAddressId = table.Column<int>(nullable: false),

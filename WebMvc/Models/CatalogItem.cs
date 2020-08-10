@@ -13,7 +13,7 @@ namespace WebMvc.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public decimal Price { get; set; }
-        public string PictureURL { get; set; }
+        public string PictureUrl { get; set; }
         public int EventOrganizerId { get; set; }
         public int EventTypeId { get; set; }
         public int EventAddressId { get; set; }

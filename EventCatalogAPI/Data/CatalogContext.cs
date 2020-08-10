@@ -48,7 +48,7 @@ namespace EventCatalogAPI.Data
                 i.Property(p => p.Price)
                     .IsRequired();
 
-                i.Property(p => p.PictureURL)
+                i.Property(p => p.PictureUrl)
                     .IsRequired();
 
                 i.HasOne(c => c.EventOrganizer)
