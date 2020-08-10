@@ -51,8 +51,8 @@ namespace WebMvc.Infrastructure
                 return $"{baseUri}/{basketId}";
             }
         }
-        
-        
+
+
         public static class Order
         {
             public static string GetOrder(string baseUri, string orderId)

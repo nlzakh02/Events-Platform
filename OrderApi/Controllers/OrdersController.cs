@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Common.Messaging;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,23 +13,23 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using OrderApi.Data;
 using OrderApi.Models;
-using Common.Messaging;
 
 namespace OrderApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    [Authorize]
+    public class OrdersController : ControllerBase
     {
         private readonly OrdersContext _ordersContext;
 
         private readonly IConfiguration _config;
         private IPublishEndpoint _bus;
-        private readonly ILogger<OrderController> _logger;
-        public OrderController(OrdersContext ordersContext,
-            ILogger<OrderController> logger,
+        private readonly ILogger<OrdersController> _logger;
+        public OrdersController(OrdersContext ordersContext,
+            ILogger<OrdersController> logger,
             IConfiguration config
-             , IPublishEndpoint bus
+            , IPublishEndpoint bus
             )
         {
             _config = config;
@@ -60,22 +61,21 @@ namespace OrderApi.Controllers
 
             _logger.LogInformation(" Order added to context");
             _logger.LogInformation(" Saving........");
-                 try
-                 {
+            try
+            {
                 await _ordersContext.SaveChangesAsync();
                 _logger.LogWarning("BuyerId is: " + order.BuyerId);
 
                 _bus.Publish(new OrderCompletedEvent(order.BuyerId)).Wait();
                 return Ok(new { order.OrderId });
-                 }
-                 catch (DbUpdateException ex)
-                 {
+            }
+            catch (DbUpdateException ex)
+            {
                 _logger.LogError("An error occored during Order saving .." + ex.Message);
                 return BadRequest();
-                 }
+            }
 
         }
-
 
         [HttpGet("{id}", Name = "GetOrder")]
         //[Route("{id}")]
@@ -107,6 +107,7 @@ namespace OrderApi.Controllers
 
             return Ok(orders);
         }
+
 
 
     }
