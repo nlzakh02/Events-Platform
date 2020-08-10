@@ -33,14 +33,14 @@ services:
     environment:
       CatalogUrl: http://catalog
       CartUrl: http://cart
-      IdentityUrl: http://10.0.6.153:6817
-      CallBackUrl: http://localhost:6816
+      IdentityUrl: http://192.168.0.23:6700
+      CallBackUrl: http://localhost:6811
       OrderUrl: http://order
       StripePublicKey: pk_test_51HEK69FeQjSa1SNf4ZbyJhLyNIUYwApxCfWgdDvPvD6vtKk60h5TnYTnl6M5DBMfkuSNlPLnpUAyxGRC1ubVXl8r00iw2U2h8u
       StripePrivateKey: sk_test_51HEK69FeQjSa1SNf2TqSGtSmen1rCmKpNgRmSuYaS2G3T03tXXFM3rvC4NFwCGzW8R1dRVx7auXXOl20sCN0sDor0041wkldZE
       ASPNETCORE_ENVIRONMENT: Development
     ports:
-      - "6816:80"
+      - "6811:80"
     container_name: webeventshop
     networks:
       - frontend
@@ -55,9 +55,9 @@ services:
       dockerfile: Dockerfile
     image: events/tokenapi
     environment:
-      MvcClient: http://localhost:6816
+      MvcClient: http://localhost:6811
     ports:
-      - "6817:80"
+      - "6700:80"
     container_name: tokenserviceapi
     networks:
       - backend
@@ -71,7 +71,7 @@ services:
       dockerfile: Dockerfile
     image: events/cartapi
     environment:
-      IdentityUrl: http://10.0.6.153:6818
+      IdentityUrl: http://192.168.0.23:6700
       ConnectionString: basket.data
     ports:
       - "6818:80"
@@ -87,7 +87,7 @@ services:
     build:
       context: .\OrderApi
       dockerfile: Dockerfile
-    image: jewels/orderapi
+    image: events/orderapi
     logging:
       driver: "json-file"
       options: {
@@ -96,7 +96,7 @@ services:
       }
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      IdentityUrl: http://192.168.1.34:6700
+      IdentityUrl: http://192.168.0.23:6700
       DatabaseServer: mssqlserver
       DatabaseName: OrdersDb
       DatabaseUser: sa
@@ -125,7 +125,7 @@ services:
 
   basket.data:
     image: redis
-    container_name: basketdate
+    container_name: basketdata
     ports:
       - "6081:6379"
     networks:

@@ -15,34 +15,32 @@ namespace CartApi.Controllers
     [Authorize]
     public class CartController : ControllerBase
     {
-        private readonly ICartRepository _cartrepository;
-        public CartController(ICartRepository cartRepository)
+        private readonly ICartRepository _repository;
+        public CartController(ICartRepository repository)
         {
-            _cartrepository = cartRepository;
+            _repository = repository;
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get(string id)
         {
-            var basket = await _cartrepository.GetCartAsync(id);
-
+            var basket = await _repository.GetCartAsync(id);
             return Ok(basket);
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(Cart), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Post([FromBody]Cart value)
+        public async Task<IActionResult> Post([FromBody] Cart value)
         {
-            var basket = _cartrepository.UpdateCartAsync(value);
+            var basket = await _repository.UpdateCartAsync(value);
             return Ok(basket);
         }
 
         [HttpDelete("{id}")]
-
         public async void Delete(string id)
         {
-            await _cartrepository.DeleteCartAsync(id);
+            await _repository.DeleteCartAsync(id);
         }
 
     }
