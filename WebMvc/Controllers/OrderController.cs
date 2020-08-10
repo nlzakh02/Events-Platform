@@ -11,6 +11,8 @@ using WebMvc.Models.OrderModels;
 using Stripe;
 using Polly.CircuitBreaker;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
+using Order = WebMvc.Models.OrderModels.Order;
 
 namespace WebMvc.Controllers
 {
@@ -21,25 +23,29 @@ namespace WebMvc.Controllers
         private readonly IOrderService _orderSvc;
         private readonly IIdentityService<ApplicationUser> _identitySvc;
         private readonly ILogger<OrderController> _logger;
-        private readonly PaymentSettings paymentSettings;
+        private readonly IConfiguration _config;
 
 
-        public OrderController(IOptions<PaymentSettings> paymentSettings, ILogger<OrderController> logger, IOrderService orderSvc, ICartService cartSvc, IIdentityService<ApplicationUser> identitySvc)
+        public OrderController(IConfiguration config,
+            ILogger<OrderController> logger,
+            IOrderService orderSvc,
+            ICartService cartSvc,
+            IIdentityService<ApplicationUser> identitySvc)
         {
             _identitySvc = identitySvc;
             _orderSvc = orderSvc;
             _cartSvc = cartSvc;
             _logger = logger;
-            this.paymentSettings = paymentSettings.Value;
+            _config = config;
         }
 
 
         public async Task<IActionResult> Create()
         {
-            var user =   _identitySvc.Get(HttpContext.User);
+            var user = _identitySvc.Get(HttpContext.User);
             var cart = await _cartSvc.GetCart(user);
             var order = _cartSvc.MapCartToOrder(cart);
-            ViewBag.StripePublishableKey = paymentSettings.StripePublicKey;
+            ViewBag.StripePublishableKey = _config["StripePublicKey"];
             return View(order);
         }
 
@@ -49,40 +55,43 @@ namespace WebMvc.Controllers
 
             if (ModelState.IsValid)
             {
-                var user =   _identitySvc.Get(HttpContext.User);
-                
+                var user = _identitySvc.Get(HttpContext.User);
+
                 Order order = frmOrder;
-             
+
                 order.UserName = user.Email;
-                order.BuyerId = user.Id;
-              
-                var chargeOptions = new StripeChargeCreateOptions()
+                order.BuyerId = user.Email;
+
+                var options = new RequestOptions
+                {
+                    ApiKey = _config["StripePrivateKey"]
+                };
+                var chargeOptions = new ChargeCreateOptions()
 
                 {
                     //required
-                    Amount = (int)(order.OrderTotal*100),
+                    Amount = (int)(order.OrderTotal * 100),
                     Currency = "usd",
-                    SourceTokenOrExistingSourceId = order.StripeToken,
+                    Source = order.StripeToken,
                     //optional
                     Description = string.Format("Order Payment {0}", order.UserName),
                     ReceiptEmail = order.UserName,
 
                 };
 
-                var chargeService = new StripeChargeService();
-
-                chargeService.ApiKey = paymentSettings.StripePrivateKey;
+                var chargeService = new ChargeService();
 
 
-                StripeCharge stripeCharge = null;
+
+                Charge stripeCharge = null;
                 try
                 {
-                    stripeCharge = chargeService.Create(chargeOptions);
-                    _logger.LogDebug("Stripe charge object creation" + stripeCharge.StripeResponse.ObjectJson);
+                    stripeCharge = chargeService.Create(chargeOptions, options);
+                    _logger.LogDebug("Stripe charge object creation" + stripeCharge.StripeResponse.ToString());
                 }
                 catch (StripeException stripeException)
                 {
-                    _logger.LogDebug("Stripe exception " + stripeException.Message);
+                    _logger.LogError("Stripe exception " + stripeException.Message);
                     ModelState.AddModelError(string.Empty, stripeException.Message);
                     return View(frmOrder);
                 }
@@ -90,7 +99,7 @@ namespace WebMvc.Controllers
 
                 try
                 {
- 
+
                     if (stripeCharge.Id != null)
                     {
                         //_logger.LogDebug("TransferID :" + stripeCharge.Id);
@@ -131,11 +140,11 @@ namespace WebMvc.Controllers
             return View(id);
 
         }
- 
+
 
         public async Task<IActionResult> Detail(string orderId)
         {
-            var user =   _identitySvc.Get(HttpContext.User);
+            var user = _identitySvc.Get(HttpContext.User);
 
             var order = await _orderSvc.GetOrder(orderId);
             return View(order);
@@ -147,21 +156,21 @@ namespace WebMvc.Controllers
             return View(vm);
         }
 
-        
-        
-        
-        
-        
+
+
+
+
+
         //public async Task<IActionResult> Orders()
         //{
-            
+
 
         //    var vm = await _orderSvc.GetOrders();
         //    return View(vm);
         //}
 
 
-        private decimal GetTotal(List<OrderItem> orderItems)
+        private decimal GetTotal(List<Models.OrderModels.OrderItem> orderItems)
         {
             return orderItems.Select(p => p.UnitPrice * p.Units).Sum();
 
