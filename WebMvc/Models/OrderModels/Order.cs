@@ -15,7 +15,7 @@ namespace WebMvc.Models.OrderModels
         [BindNever]
         public DateTime OrderDate { get; set; }
 
-      
+
         [DisplayFormat(DataFormatString = "{0:N2}")]
         public decimal OrderTotal { get; set; }
 
@@ -32,7 +32,7 @@ namespace WebMvc.Models.OrderModels
         [BindNever]
         public string BuyerId { get; set; }
         public string StripeToken { get; set; }
-        
+
         public OrderStatus OrderStatus { get; set; }
 
         // See the property initializer syntax below. This
@@ -40,7 +40,7 @@ namespace WebMvc.Models.OrderModels
         // auto-implemented property.
         public List<OrderItem> OrderItems { get; } = new List<OrderItem>();
 
-       
+
         public string PaymentAuthCode { get; set; }
         // public PaymentInfo Payment { get; internal set; }
         //  public Guid RequestId { get;  set; }
@@ -54,4 +54,3 @@ namespace WebMvc.Models.OrderModels
 
 
 }
- 

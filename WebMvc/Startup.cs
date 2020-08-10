@@ -44,7 +44,7 @@ namespace WebMvc
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                // options.DefaultAuthenticateScheme = "Cookies";
+                options.DefaultAuthenticateScheme = "Cookies";
             })
             .AddCookie()
             .AddOpenIdConnect(options => {
