@@ -19,7 +19,7 @@ namespace OrderApi
             using (var scope = host.Services.CreateScope())
             {
                 var serviceProviders = scope.ServiceProvider;
-                var context = serviceProviders.GetRequiredService<OrderContext>();
+                var context = serviceProviders.GetRequiredService<OrdersContext>();
                 MigrateDatabase.EnsureCreated(context);
             }
             host.Run();
