@@ -88,7 +88,7 @@ namespace WebMvc.Controllers
                         Id = Guid.NewGuid().ToString(),
                         Quantity = 1,
                         ProductName = productDetails.Name,
-                        PictureUrl = productDetails.PictureURL,
+                        PictureUrl = productDetails.PictureUrl,
                         UnitPrice = productDetails.Price,
                         ProductId = productDetails.Id.ToString()
                     };
