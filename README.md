@@ -12,10 +12,11 @@ __Demo Video:__
 https://www.youtube.com/watch?v=Q5uiWqk4TRI
 
 
-### Part 2
+### Part 2 & 3
 
 At this point, we added the Web Application (Model-View-Controlller) microservice to enable user interaction with the Catalog microservice.  
-We added Identity microservice (based on IdentityServer4 framework) for user authoriation and integrated it with Web Application.
+We added Identity microservice (based on IdentityServer4 framework) for user authorization and integrated it with Web Application.
+Cart and order microservices were also added and integrated with the Web Application. 
 
 __Demo Video:__  
 https://www.youtube.com/watch?v=GMvd95OgCoc&feature=youtu.be
