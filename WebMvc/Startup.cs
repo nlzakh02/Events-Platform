@@ -38,7 +38,6 @@ namespace WebMvc
             services.AddTransient<ICartService, CartService>();
             services.AddTransient<IOrderService, OrderService>();
 
-
             var identityUrl = Configuration.GetValue<string>("IdentityUrl");
             var callBackUrl = Configuration.GetValue<string>("CallBackUrl");
             services.AddAuthentication(options =>
@@ -70,6 +69,9 @@ namespace WebMvc
                     NameClaimType = "name",
                     RoleClaimType = "role"
                 };
+
+
+
             });
         }
 
@@ -90,15 +92,14 @@ namespace WebMvc
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Catalog}/{action=Index}/{id?}");
             });
         }
     }
