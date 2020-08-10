@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
-using MassTransit;
+//using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OrderApi.Data;
-using RabbitMQ.Client;
+//using RabbitMQ.Client;
 
 namespace OrderApi
 {
@@ -38,7 +38,7 @@ namespace OrderApi
             var password = Configuration["DatabasePassword"];
             var connectionString = $"Server={server};Database={database};User Id={user};Password={password}";
             //var connectionString = Configuration["ConnectionString"];
-            services.AddDbContext<OrderContext>(options =>
+            services.AddDbContext<OrdersContext>(options =>
                 options.UseSqlServer(connectionString));
 
             // prevent from mapping "sub" claim to nameidentifier.
@@ -56,7 +56,7 @@ namespace OrderApi
                 options.Audience = "order";
             });
 
-            services.AddMassTransit(cfg =>
+            /*services.AddMassTransit(cfg =>
             {
                 cfg.AddBus(provider =>
                 {
@@ -74,9 +74,9 @@ namespace OrderApi
                 });
             });
 
-            services.AddMassTransitHostedService();
+            services.AddMassTransitHostedService();*/
         }
-    }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -98,3 +98,4 @@ namespace OrderApi
             });
         }
     }
+}

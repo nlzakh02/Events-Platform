@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using OrderApi.Data;
 using OrderApi.Models;
+using Common.Messaging;
 
 namespace OrderApi.Controllers
 {
@@ -18,12 +20,12 @@ namespace OrderApi.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private readonly OrderContext _ordersContext;
+        private readonly OrdersContext _ordersContext;
 
         private readonly IConfiguration _config;
         private IPublishEndpoint _bus;
         private readonly ILogger<OrderController> _logger;
-        public OrderController(OrderContext ordersContext,
+        public OrderController(OrdersContext ordersContext,
             ILogger<OrderController> logger,
             IConfiguration config
              , IPublishEndpoint bus
