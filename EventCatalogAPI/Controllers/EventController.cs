@@ -53,7 +53,7 @@ namespace EventCatalogAPI.Controllers
         private List<EventItem> ChangePictureUrl(List<EventItem> items)
         {
             items.ForEach(item =>
-                item.PictureURL = item.PictureURL.Replace(
+                item.PictureUrl = item.PictureUrl.Replace(
                                     "http://externalcatalogbaseurltobereplaced",
                                     _config["ExternalCatalogBaseUrl"]));
             return items;
@@ -99,9 +99,7 @@ namespace EventCatalogAPI.Controllers
             [FromQuery]int pageSize = 6
             )
         {
-            var query = (IQueryable<EventItem>)_context.EventItems
-                    .Include(c => c.EventOrganizer)
-                    .Include(c => c.EventType);
+            var query = (IQueryable<EventItem>)_context.EventItems;
 
             if (eventTypeId.HasValue)
             {
